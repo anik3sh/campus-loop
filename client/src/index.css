@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #faf8f5;
+  --color-ivory-dark: #f3f0eb;
+  --color-charcoal: #1a1a1a;
+  --color-charcoal-light: #2d2d2d;
+  --color-stone: #5c5c5c;
+  --color-stone-light: #8a8a8a;
+  --color-border: #e8e4de;
+  --color-sage: #6b7c5e;
+  --color-sage-light: #8fa07a;
+  --color-sage-dark: #4a5c40;
+  --color-warm: #c4a882;
+  --color-warm-light: #d4bc9e;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-stone-light);
+}
+
+/* Typography */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Transitions */
+.transition-smooth {
+  transition: all 0.2s ease;
+}
+
+/* Line clamp */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 2px;
+}
