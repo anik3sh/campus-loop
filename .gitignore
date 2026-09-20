@@ -5,3 +5,16 @@ node_modules/
 dist/
 build/
 .vite/
+
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+build/
+.vite/
+
+# SQLite database files
+data/*.db
+data/*.db-shm
+data/*.db-wal
