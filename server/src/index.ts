@@ -50,6 +50,8 @@ app.use('/api/users', usersRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', miscRoutes);
 
+
+
 // Health check endpoint
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({
@@ -62,8 +64,17 @@ app.get('/api/health', (req: Request, res: Response) => {
 });
 
 // 404 Handler for unmatched API routes
-app.use('/api/*', (req: Request, res: Response) => {
+app.use("/api", (req: Request, res: Response) => {
   res.status(404).json({ error: `Endpoint '${req.originalUrl}' not found` });
+});
+
+// Serve Vite frontend
+const frontendPath = path.join(__dirname, "../../client/dist");
+
+app.use(express.static(frontendPath));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 // Centralized JSON error handling middleware
