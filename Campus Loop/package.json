@@ -1,0 +1,12 @@
+{
+  "name": "campus-loop-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix campus-loop/client",
+    "dev:all": "cmd /c start.bat",
+    "client": "npm run dev --prefix campus-loop/client",
+    "server": "npm run dev --prefix campus-loop/server",
+    "test": "npm test --prefix campus-loop/server"
+  }
+}
