@@ -5,10 +5,31 @@ import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
 
+// GET /users/search
+router.get('/search', (req: any, res: Response) => {
+  const { q } = req.query as any;
+  if (!q || typeof q !== 'string' || !q.trim()) {
+    return res.json({ users: [] });
+  }
+
+  const query = q.trim();
+  const term = `%${query}%`;
+  const users = db.prepare(`
+    SELECT id, name, username, college, campus, location, bio, avatar, total_sold, response_rate
+    FROM users
+    WHERE is_suspended = 0 AND (
+      name LIKE ? OR username LIKE ? OR email LIKE ? OR college LIKE ? OR campus LIKE ? OR location LIKE ? OR bio LIKE ?
+    )
+    LIMIT 10
+  `).all(term, term, term, term, term, term, term);
+
+  res.json({ users });
+});
+
 // GET /users/:id/profile
 router.get('/:id/profile', (req: any, res: Response) => {
   const user = db.prepare(`
-    SELECT id, name, college, campus, bio, avatar, response_rate, total_sold, created_at
+    SELECT id, name, username, location, college, campus, bio, avatar, response_rate, total_sold, created_at
     FROM users WHERE id = ? AND is_suspended = 0
   `).get(req.params.id) as any;
 

@@ -4,18 +4,18 @@ echo  Campus Loop - Starting...
 echo.
 
 echo Starting backend (port 5000)...
-start "Campus Loop API" cmd /k "cd /d %~dp0server && node node_modules/tsx/dist/cli.mjs src/index.ts"
+start "Campus Loop API" /D "%~dp0server" cmd /k "node node_modules/tsx/dist/cli.mjs src/index.ts"
 
 timeout /t 3 /nobreak >nul
 
 echo Starting frontend (port 5173)...
-start "Campus Loop App" cmd /k "cd /d %~dp0client && npm run dev"
+start "Campus Loop App" /D "%~dp0client" cmd /k "npm run dev"
 
 timeout /t 4 /nobreak >nul
 
 echo.
-echo  App:   http://localhost:5173
-echo  API:   http://localhost:5000/api/health
+echo  App (PC):    http://localhost:5173
+echo  API:         http://localhost:5000/api/health
 echo.
 echo  Login: aryan@student.in / pass123
 echo  Admin: admin@campusloop.in / admin123

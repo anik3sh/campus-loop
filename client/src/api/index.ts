@@ -84,6 +84,12 @@ export const aiAPI = {
   smartSearch: (q: string) => api.get('/ai/smart-search', { params: { q } }),
 };
 
+// Search (Universal Search)
+export const searchAPI = {
+  universalSearch: (q: string) => api.get('/search', { params: { q } }),
+  searchUsers: (q: string) => api.get('/users/search', { params: { q } }),
+};
+
 // Marketplace stats
 export const marketplaceAPI = {
   getStats: () => api.get('/marketplace/stats'),

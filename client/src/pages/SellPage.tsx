@@ -160,7 +160,7 @@ export default function SellPage() {
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="font-serif text-2xl font-semibold text-[#1a1a1a] mb-2">List Your Item</h1>
+          <h1 className="font-display tracking-tight text-2xl font-semibold text-[#1a1a1a] mb-2">List Your Item</h1>
           <p className="text-sm text-[#8a8a8a]">Step {step + 1} of {STEPS.length}: <strong className="text-[#1a1a1a]">{STEPS[step]}</strong></p>
           <div className="mt-3 h-1.5 bg-[#e8e4de] rounded-full">
             <div
@@ -191,7 +191,7 @@ export default function SellPage() {
           {/* Step 0: Photos */}
           {step === 0 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">Add Photos</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">Add Photos</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">Add up to 8 photos. First photo will be the cover image.</p>
               <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={e => handleImages(e.target.files)} />
               <div className="grid grid-cols-3 gap-3 mb-4">
@@ -221,7 +221,7 @@ export default function SellPage() {
           {/* Step 1: Details */}
           {step === 1 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">Item Details</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">Item Details</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">What are you selling? Give it a clear, searchable name.</p>
               <div className="space-y-4">
                 <div>
@@ -261,7 +261,7 @@ export default function SellPage() {
           {/* Step 2: Category */}
           {step === 2 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">Select Category</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">Select Category</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">Choose the most relevant category for your item.</p>
               <div className="grid grid-cols-2 gap-2">
                 {categories.map(c => (
@@ -285,7 +285,7 @@ export default function SellPage() {
           {/* Step 3: Condition */}
           {step === 3 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">Item Condition</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">Item Condition</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">Be honest — buyers trust accurate condition ratings.</p>
               <div className="space-y-2">
                 {CONDITIONS.map(c => (
@@ -312,7 +312,7 @@ export default function SellPage() {
           {/* Step 4: Price */}
           {step === 4 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">Set Your Price</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">Set Your Price</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">Price it fairly to sell quickly.</p>
               <div className="space-y-4">
                 <div>
@@ -373,7 +373,7 @@ export default function SellPage() {
           {/* Step 5: Description */}
           {step === 5 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">Describe Your Item</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">Describe Your Item</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">More detail = more trust. Mention age, usage, any defects.</p>
               <textarea
                 value={form.description}
@@ -389,7 +389,7 @@ export default function SellPage() {
           {/* Step 6: AI Enhancement */}
           {step === 6 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">✨ Improve with Loop AI</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">✨ Improve with Loop AI</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">Let AI generate a better title, description, and tags for your listing.</p>
 
               <div className="bg-[#f3f0eb] rounded-xl p-4 mb-5">
@@ -458,14 +458,14 @@ export default function SellPage() {
           {/* Step 7: Preview */}
           {step === 7 && (
             <div>
-              <h2 className="font-serif text-xl font-semibold text-[#1a1a1a] mb-2">Preview Your Listing</h2>
+              <h2 className="font-display tracking-tight text-xl font-semibold text-[#1a1a1a] mb-2">Preview Your Listing</h2>
               <p className="text-sm text-[#8a8a8a] mb-5">Review everything before publishing.</p>
               <div className="space-y-3">
                 {imagePreviews[0] && (
                   <img src={imagePreviews[0]} alt="" className="w-full h-48 object-cover rounded-xl" />
                 )}
                 <div className="bg-[#f3f0eb] rounded-xl p-4 space-y-2">
-                  <h3 className="font-serif text-lg font-semibold text-[#1a1a1a]">{form.title || '(no title)'}</h3>
+                  <h3 className="font-display tracking-tight text-lg font-semibold text-[#1a1a1a]">{form.title || '(no title)'}</h3>
                   <p className="text-2xl font-semibold text-[#1a1a1a]">₹{parseFloat(form.price || '0').toLocaleString('en-IN')}</p>
                   <div className="flex items-center gap-2 text-xs text-[#8a8a8a]">
                     <span className="bg-white border border-[#e8e4de] px-2 py-0.5 rounded-full capitalize">{form.condition?.replace('_', ' ')}</span>
@@ -492,7 +492,7 @@ export default function SellPage() {
               <div className="w-16 h-16 bg-[#6b7c5e]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-[#6b7c5e]" />
               </div>
-              <h2 className="font-serif text-2xl font-semibold text-[#1a1a1a] mb-2">Ready to Publish!</h2>
+              <h2 className="font-display tracking-tight text-2xl font-semibold text-[#1a1a1a] mb-2">Ready to Publish!</h2>
               <p className="text-sm text-[#8a8a8a] mb-6">Your listing will be visible to all campus students immediately.</p>
               <div className="bg-[#f3f0eb] rounded-xl p-4 text-left mb-6 space-y-1.5">
                 <div className="flex items-center justify-between text-sm">

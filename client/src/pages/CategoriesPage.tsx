@@ -30,7 +30,7 @@ export default function CategoriesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         <div className="mb-8">
           <p className="text-xs font-medium text-[#6b7c5e] uppercase tracking-widest mb-2">Explore</p>
-          <h1 className="font-serif text-3xl font-semibold text-[#1a1a1a]">All Categories</h1>
+          <h1 className="font-display text-3xl font-bold tracking-tight text-[#1a1a1a]">All Categories</h1>
           <p className="text-[#5c5c5c] text-sm mt-2">Browse campus essentials by category</p>
         </div>
 

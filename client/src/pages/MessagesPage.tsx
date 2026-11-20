@@ -86,7 +86,7 @@ export default function MessagesPage() {
           {/* Conversation list */}
           <div className={`w-full sm:w-80 border-r border-[#e8e4de] flex-shrink-0 flex flex-col ${conversationId ? 'hidden sm:flex' : 'flex'}`}>
             <div className="px-4 py-4 border-b border-[#e8e4de]">
-              <h2 className="font-serif text-lg font-semibold text-[#1a1a1a]">Messages</h2>
+              <h2 className="font-display text-lg font-bold tracking-tight text-[#1a1a1a]">Messages</h2>
             </div>
             <div className="flex-1 overflow-y-auto">
               {loading ? (

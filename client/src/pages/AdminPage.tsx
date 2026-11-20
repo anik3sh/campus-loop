@@ -1,3 +1,4 @@
+import ListingIllustration from '../components/illustrations/ListingIllustration';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Package, Flag, BarChart3, CheckCircle, XCircle, ShieldAlert } from 'lucide-react';
@@ -68,7 +69,7 @@ export default function AdminPage() {
           <div className="w-8 h-8 bg-[#1a1a1a] rounded-lg flex items-center justify-center">
             <ShieldAlert className="w-4 h-4 text-white" />
           </div>
-          <h1 className="font-serif text-2xl font-semibold text-[#1a1a1a]">Admin Dashboard</h1>
+          <h1 className="font-display text-2xl font-bold tracking-tight text-[#1a1a1a]">Admin Dashboard</h1>
         </div>
 
         {/* Tabs */}
@@ -101,7 +102,7 @@ export default function AdminPage() {
                 { label: 'Pending Reports', value: stats.pendingReports || 0, alert: stats.pendingReports > 0 },
               ].map((s, i) => (
                 <div key={i} className={`bg-white border rounded-xl p-4 ${s.alert ? 'border-red-200 bg-red-50' : 'border-[#e8e4de]'}`}>
-                  <p className={`text-2xl font-semibold font-serif ${s.alert ? 'text-red-600' : 'text-[#6b7c5e]'}`}>{s.value.toLocaleString('en-IN')}</p>
+                  <p className={`text-2xl font-bold font-display tracking-tight ${s.alert ? 'text-red-600' : 'text-[#556947]'}`}>{s.value.toLocaleString('en-IN')}</p>
                   <p className="text-xs text-[#8a8a8a] mt-0.5">{s.label}</p>
                 </div>
               ))}
@@ -109,12 +110,12 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-white border border-[#e8e4de] rounded-xl p-4">
                 <p className="text-sm font-medium text-[#8a8a8a] mb-2">Marketplace Value</p>
-                <p className="font-serif text-2xl font-semibold text-[#1a1a1a]">₹{(stats.totalValue || 0).toLocaleString('en-IN')}</p>
+                <p className="font-display text-2xl font-bold tracking-tight text-[#1a1a1a]">₹{(stats.totalValue || 0).toLocaleString('en-IN')}</p>
                 <p className="text-xs text-[#8a8a8a] mt-1">Total value of active listings</p>
               </div>
               <div className="bg-white border border-[#e8e4de] rounded-xl p-4">
                 <p className="text-sm font-medium text-[#8a8a8a] mb-2">Flagged Content</p>
-                <p className="font-serif text-2xl font-semibold text-red-600">{stats.flaggedListings || 0}</p>
+                <p className="font-display text-2xl font-bold tracking-tight text-red-600">{stats.flaggedListings || 0}</p>
                 <p className="text-xs text-[#8a8a8a] mt-1">Listings pending review</p>
               </div>
             </div>
@@ -198,7 +199,7 @@ export default function AdminPage() {
                     <tr key={l.id} className={l.status === 'flagged' ? 'bg-amber-50' : ''}>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          {l.primary_image && <img src={l.primary_image} alt="" className="w-8 h-8 rounded-lg object-cover" />}
+                          <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0"><ListingIllustration listing={l} className="w-full h-full" isMini /></div>
                           <span className="font-medium text-[#1a1a1a] truncate max-w-40">{l.title}</span>
                         </div>
                       </td>

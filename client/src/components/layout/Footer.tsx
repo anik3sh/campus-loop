@@ -1,23 +1,37 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Mail, Globe, MessageSquare, AtSign } from 'lucide-react';
+import Logo from '../ui/Logo';
 
 export default function Footer() {
+  const location = useLocation();
+
+  const handleFooterHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('/#')) {
+      const targetId = href.replace('/#', '');
+      if (location.pathname === '/') {
+        e.preventDefault();
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          window.history.pushState(null, '', href);
+        }
+      }
+    }
+  };
+
   return (
     <footer className="bg-[#1a1a1a] text-[#8a8a8a] mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 rounded-full border-2 border-[#6b7c5e] flex items-center justify-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#6b7c5e]" />
-              </div>
-              <span className="font-serif text-white font-semibold">Campus Loop</span>
+            <div className="mb-4">
+              <Logo size="md" variant="light" showTagline={true} />
             </div>
             <p className="text-sm leading-relaxed mb-4">
               The trusted student marketplace for buying, selling and exchanging campus essentials.
             </p>
-            <p className="text-xs text-[#5c5c5c] font-serif italic">"Buy. Sell. Connect. On Campus."</p>
+            <p className="text-xs text-[#8a8a8a] font-medium tracking-wide">Buy • Sell • Connect • On Campus</p>
           </div>
 
           {/* Marketplace */}
@@ -57,13 +71,26 @@ export default function Footer() {
             <h4 className="text-white text-sm font-medium mb-4">About</h4>
             <ul className="space-y-2.5 text-sm mb-6">
               {[
+                { label: 'About Campus Loop', href: '/#about' },
                 { label: 'How It Works', href: '/#how-it-works' },
                 { label: 'Safety Tips', href: '#' },
                 { label: 'Terms of Use', href: '#' },
                 { label: 'Privacy Policy', href: '#' },
                 { label: 'Contact Us', href: 'mailto:hello@campusloop.in' },
               ].map(l => (
-                <li key={l.href}><a href={l.href} className="hover:text-white transition-colors">{l.label}</a></li>
+                <li key={l.label}>
+                  {l.href.startsWith('/#') ? (
+                    <Link
+                      to={l.href}
+                      onClick={e => handleFooterHashClick(e, l.href)}
+                      className="hover:text-white transition-colors cursor-pointer"
+                    >
+                      {l.label}
+                    </Link>
+                  ) : (
+                    <a href={l.href} className="hover:text-white transition-colors">{l.label}</a>
+                  )}
+                </li>
               ))}
             </ul>
             <div className="flex items-center gap-3">

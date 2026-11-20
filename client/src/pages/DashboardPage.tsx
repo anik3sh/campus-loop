@@ -1,3 +1,4 @@
+import ListingIllustration from '../components/illustrations/ListingIllustration';
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Package, Heart, MessageCircle, Star, ShoppingBag, Edit2, Trash2, CheckCircle, LayoutDashboard } from 'lucide-react';
@@ -75,7 +76,7 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-serif text-2xl font-semibold text-[#1a1a1a]">My Dashboard</h1>
+            <h1 className="font-display text-2xl font-bold tracking-tight text-[#1a1a1a]">My Dashboard</h1>
             <p className="text-sm text-[#8a8a8a] mt-0.5">Welcome back, {user.name.split(' ')[0]}</p>
           </div>
           <Link to="/sell" className="flex items-center gap-2 px-4 py-2.5 bg-[#6b7c5e] text-white text-sm font-medium rounded-xl hover:bg-[#4a5c40] transition-colors">
@@ -129,7 +130,7 @@ export default function DashboardPage() {
                     { label: 'Reviews', value: stats.reviews || 0, color: 'text-purple-600' },
                   ].map((s, i) => (
                     <div key={i} className="bg-white border border-[#e8e4de] rounded-xl p-4">
-                      <p className={`text-2xl font-semibold font-serif ${s.color}`}>{s.value}</p>
+                      <p className={`text-2xl font-bold font-display tracking-tight ${s.color}`}>{s.value}</p>
                       <p className="text-xs text-[#8a8a8a] mt-0.5">{s.label}</p>
                     </div>
                   ))}
@@ -144,7 +145,7 @@ export default function DashboardPage() {
                   {listings.slice(0, 4).map(l => (
                     <div key={l.id} className="flex items-center gap-3 px-5 py-3.5 border-b border-[#f3f0eb] last:border-0">
                       <div className="w-12 h-12 bg-[#f3f0eb] rounded-lg overflow-hidden flex-shrink-0">
-                        {l.primary_image && <img src={l.primary_image} alt={l.title} className="w-full h-full object-cover" />}
+                        <ListingIllustration listing={l} className="w-full h-full" isMini />
                       </div>
                       <div className="flex-1 min-w-0">
                         <Link to={`/listing/${l.id}`} className="text-sm font-medium text-[#1a1a1a] hover:text-[#6b7c5e] truncate block transition-colors">{l.title}</Link>
@@ -179,7 +180,7 @@ export default function DashboardPage() {
                       {listings.map(l => (
                         <div key={l.id} className="flex items-center gap-3 px-5 py-3.5">
                           <div className="w-14 h-14 bg-[#f3f0eb] rounded-lg overflow-hidden flex-shrink-0">
-                            {l.primary_image ? <img src={l.primary_image} alt="" className="w-full h-full object-cover" /> : <Package className="w-6 h-6 text-[#e8e4de] m-auto" />}
+                            <ListingIllustration listing={l} className="w-full h-full" isMini />
                           </div>
                           <div className="flex-1 min-w-0">
                             <Link to={`/listing/${l.id}`} className="text-sm font-medium text-[#1a1a1a] hover:text-[#6b7c5e] truncate block transition-colors">{l.title}</Link>
@@ -228,7 +229,7 @@ export default function DashboardPage() {
                       {wishlist.map(item => (
                         <Link key={item.id} to={`/listing/${item.id}`} className="group">
                           <div className="aspect-[4/3] bg-[#f3f0eb] rounded-xl overflow-hidden mb-2">
-                            {item.primary_image && <img src={item.primary_image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />}
+                            <ListingIllustration listing={item} className="w-full h-full group-hover:scale-105 transition-transform" />
                           </div>
                           <p className="text-sm font-medium text-[#1a1a1a] line-clamp-1">{item.title}</p>
                           <p className="text-sm text-[#6b7c5e] font-semibold">₹{item.price?.toLocaleString('en-IN')}</p>

@@ -1,0 +1,15 @@
+<svg viewBox="0 0 240 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 60 38 C 72 20, 102 18, 102 38 C 102 58, 72 56, 60 38 C 48 20, 18 18, 18 38 C 18 58, 48 56, 60 38 Z"
+    stroke="#5f7754"
+    stroke-width="10"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M 97 19 C 97 10, 105 6, 110 5 C 109 12, 103 20, 97 19 Z"
+    fill="#5f7754"
+  />
+  <text x="120" y="44" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="800" font-size="22" letter-spacing="-0.5" fill="#1c2e1b">Campus<tspan fill="#5f7754">Loop</tspan></text>
+  <text x="120" y="58" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="8" letter-spacing="1.5" fill="#5f7754">BUY · SELL · CONNECT</text>
+</svg>

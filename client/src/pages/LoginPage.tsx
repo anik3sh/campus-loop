@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import toast from 'react-hot-toast';
+import Logo from '../components/ui/Logo';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -26,13 +27,10 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 rounded-full border-2 border-[#6b7c5e] flex items-center justify-center">
-              <div className="w-3 h-3 rounded-full bg-[#6b7c5e]" />
-            </div>
-            <span className="font-serif text-lg font-semibold text-[#1a1a1a]">Campus Loop</span>
+          <Link to="/" className="inline-flex items-center justify-center group mb-6">
+            <Logo size="lg" layout="vertical" showTagline={true} />
           </Link>
-          <h1 className="font-serif text-2xl font-semibold text-[#1a1a1a] mb-2">Welcome back</h1>
+          <h1 className="font-display text-2xl font-bold tracking-tight text-[#1a1a1a] mb-2">Welcome back</h1>
           <p className="text-sm text-[#8a8a8a]">Sign in to your Campus Loop account</p>
         </div>
 

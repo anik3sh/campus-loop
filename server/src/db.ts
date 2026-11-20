@@ -190,7 +190,93 @@ export function initDB() {
     CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id);
   `);
 
+  try { db.exec('ALTER TABLE users ADD COLUMN username TEXT'); } catch {}
+  try { db.exec('ALTER TABLE users ADD COLUMN location TEXT'); } catch {}
+
   seedData();
+  applyCampusMigrations();
+}
+
+function applyCampusMigrations() {
+  try {
+    // Ensure Abhishek Raj exists
+    const abhishek = db.prepare('SELECT id FROM users WHERE id = ?').get('user-007') as any;
+    if (!abhishek) {
+      const hash = bcrypt.hashSync('pass123', 10);
+      db.prepare(`
+        INSERT INTO users (id, name, email, password_hash, college, campus, bio, is_admin, avatar, total_sold, response_rate, username, location)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        'user-007', 'Abhishek Raj', 'abhishek@student.in', hash, 'SSTC', 'SSTC',
+        'Electronics student & tech enthusiast. 3rd year B.Tech.', 0, null, 14, 98, 'abhishek', 'Bhilai, Chhattisgarh'
+      );
+    }
+
+    // Ensure Ayush Verma exists
+    const ayush = db.prepare('SELECT id FROM users WHERE id = ?').get('user-008') as any;
+    if (!ayush) {
+      const hash = bcrypt.hashSync('pass123', 10);
+      db.prepare(`
+        INSERT INTO users (id, name, email, password_hash, college, campus, bio, is_admin, avatar, total_sold, response_rate, username, location)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        'user-008', 'Ayush Verma', 'ayush@student.in', hash, 'BIT Durg', 'BIT Durg',
+        'Civil engineering student. Selling drafting tools & notes.', 0, null, 8, 92, 'ayush', 'Durg, Chhattisgarh'
+      );
+    }
+
+    // Ensure Neha Sharma exists
+    const neha = db.prepare('SELECT id FROM users WHERE id = ?').get('user-009') as any;
+    if (!neha) {
+      const hash = bcrypt.hashSync('pass123', 10);
+      db.prepare(`
+        INSERT INTO users (id, name, email, password_hash, college, campus, bio, is_admin, avatar, total_sold, response_rate, username, location)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        'user-009', 'Neha Sharma', 'neha@student.in', hash, 'SSPU', 'SSPU',
+        'Management student. Active reader and study group contributor.', 0, null, 11, 95, 'neha', 'Pune, Maharashtra'
+      );
+    }
+
+    // Sync usernames, locations and colleges on existing users
+    const userUpdates = [
+      { id: 'user-001', username: 'aryan', location: 'New Delhi, Delhi', campus: 'IIT Delhi', college: 'IIT Delhi' },
+      { id: 'user-002', username: 'priyapatel', location: 'Raipur, Chhattisgarh', campus: 'SSIPMT Raipur', college: 'SSIPMT Raipur' },
+      { id: 'user-003', username: 'rohan', location: 'Bhilai, Chhattisgarh', campus: 'SSTC', college: 'SSTC' },
+      { id: 'user-004', username: 'sneha', location: 'Raipur, Chhattisgarh', campus: 'NIT Raipur', college: 'NIT Raipur' },
+      { id: 'user-005', username: 'vikram', location: 'Mumbai, Maharashtra', campus: 'IIT Bombay', college: 'IIT Bombay' },
+      { id: 'user-006', username: 'ananya', location: 'New Delhi, Delhi', campus: 'Delhi University', college: 'Delhi University' },
+    ];
+    const updateUserStmt = db.prepare('UPDATE users SET username = ?, location = ?, campus = ?, college = ? WHERE id = ?');
+    for (const u of userUpdates) {
+      updateUserStmt.run(u.username, u.location, u.campus, u.college, u.id);
+    }
+
+    // Sync realistic campuses on listings
+    const listingCampuses = [
+      { id: 'lst-001', campus: 'SSTC', college: 'SSTC' }, // Calculator
+      { id: 'lst-002', campus: 'BIT Durg', college: 'BIT Durg' }, // Engineering Mathematics Book
+      { id: 'lst-003', campus: 'IIT Delhi', college: 'IIT Delhi' }, // Laptop
+      { id: 'lst-004', campus: 'IIT Delhi', college: 'IIT Delhi' }, // Calculus
+      { id: 'lst-005', campus: 'SSPU', college: 'SSPU' }, // Study Table
+      { id: 'lst-006', campus: 'NIT Raipur', college: 'NIT Raipur' }, // Headphones
+      { id: 'lst-007', campus: 'IIT Bombay', college: 'IIT Bombay' }, // Drawing Set
+      { id: 'lst-008', campus: 'SSTC', college: 'SSTC' }, // Mouse
+      { id: 'lst-009', campus: 'SSIPMT Raipur', college: 'SSIPMT Raipur' }, // Study Material / Physics Notes
+      { id: 'lst-010', campus: 'BIT Durg', college: 'BIT Durg' }, // Backpack
+      { id: 'lst-011', campus: 'SSIPMT Raipur', college: 'SSIPMT Raipur' }, // Lamp
+      { id: 'lst-012', campus: 'SSPU', college: 'SSPU' }, // Python Book
+      { id: 'lst-013', campus: 'IIT Bombay', college: 'IIT Bombay' }, // Keyboard
+      { id: 'lst-014', campus: 'Delhi University', college: 'Delhi University' }, // Chemistry NCERT
+      { id: 'lst-015', campus: 'NIT Raipur', college: 'NIT Raipur' }, // Cycle
+    ];
+    const updateListingStmt = db.prepare('UPDATE listings SET campus = ?, college = ? WHERE id = ?');
+    for (const lc of listingCampuses) {
+      updateListingStmt.run(lc.campus, lc.college, lc.id);
+    }
+  } catch (err: any) {
+    console.warn('[DB Migration Warning]:', err.message);
+  }
 }
 
 function seedData() {
@@ -267,24 +353,7 @@ function seedData() {
     VALUES (?, ?, ?, ?, ?)
   `);
 
-  const imageMap: Record<string, string[]> = {
-    'lst-001': ['https://images.unsplash.com/photo-1564466809058-bf4114d55352?w=600'],
-    'lst-002': ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600'],
-    'lst-003': ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600'],
-    'lst-004': ['https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600'],
-    'lst-005': ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600'],
-    'lst-006': ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600'],
-    'lst-007': ['https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600'],
-    'lst-008': ['https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600'],
-    'lst-009': ['https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600'],
-    'lst-010': ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600'],
-    'lst-011': ['https://images.unsplash.com/photo-1593640408182-31c228b68e10?w=600'],
-    'lst-012': ['https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600'],
-    'lst-013': ['https://images.unsplash.com/photo-1601370552761-1c74f4d4e9d2?w=600'],
-    'lst-014': ['https://images.unsplash.com/photo-1589998059171-988d887df646?w=600'],
-    'lst-015': ['https://images.unsplash.com/photo-1571188654248-7a89213915f7?w=600'],
-  };
-
+  const imageMap: Record<string, string[]> = {};
   for (const l of listings) {
     const views = 20 + Math.floor(Math.random() * 200);
     const favs = Math.floor(Math.random() * 30);

@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Heart, MapPin, Tag } from 'lucide-react';
+import { Heart, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import { listingsAPI } from '../../api';
 import { useAuthStore } from '../../store/authStore';
 import toast from 'react-hot-toast';
+import ListingIllustration from '../illustrations/ListingIllustration';
 
 interface Listing {
   id: string;
@@ -64,20 +65,12 @@ export default function ListingCard({ listing, onFavoriteChange }: {
   return (
     <Link to={`/listing/${listing.id}`} className="group block">
       <div className="bg-white border border-[#e8e4de] rounded-xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-        {/* Image */}
-        <div className="relative aspect-[4/3] bg-[#f3f0eb] overflow-hidden">
-          {listing.primary_image ? (
-            <img
-              src={listing.primary_image}
-              alt={listing.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <Tag className="w-12 h-12 text-[#e8e4de]" />
-            </div>
-          )}
+        {/* Illustration & Image */}
+        <div className="relative aspect-[4/3] bg-[#f4f2ed] overflow-hidden">
+          <ListingIllustration
+            listing={listing}
+            className="w-full h-full transition-transform duration-300 group-hover:scale-[1.03]"
+          />
 
           {/* Discount badge */}
           {discount && (
@@ -118,9 +111,9 @@ export default function ListingCard({ listing, onFavoriteChange }: {
             <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${cond.color}`}>
               {cond.label}
             </span>
-            <div className="flex items-center gap-1 text-xs text-[#8a8a8a]">
-              <MapPin className="w-3 h-3" />
-              <span className="truncate max-w-24">{listing.campus}</span>
+            <div className="flex items-center gap-1 text-xs text-[#5c5c5c] bg-[#f3f0eb] px-2 py-0.5 rounded-md font-medium" title={listing.campus}>
+              <MapPin className="w-3 h-3 text-[#6b7c5e]" />
+              <span className="truncate max-w-28">{listing.campus || 'Campus'}</span>
             </div>
           </div>
 

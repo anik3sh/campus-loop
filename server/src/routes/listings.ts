@@ -84,9 +84,10 @@ router.get('/', optionalAuth, (req: AuthRequest, res: Response) => {
     where.push('l.condition = ?');
     params.push(condition);
   }
-  if (campus) {
-    where.push('l.campus LIKE ?');
-    params.push(`%${campus}%`);
+  if (campus && campus !== 'All Campuses' && campus !== 'all') {
+    where.push('(l.campus LIKE ? OR l.college LIKE ?)');
+    const cp = `%${String(campus).trim()}%`;
+    params.push(cp, cp);
   }
   if (min_price) {
     const minVal = parseFloat(min_price);

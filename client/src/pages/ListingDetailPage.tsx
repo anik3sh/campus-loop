@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Heart, Share2, Flag, MapPin, Calendar, Star, MessageCircle, ChevronLeft, ChevronRight, Tag, CheckCircle } from 'lucide-react';
+import { Heart, Share2, Flag, MapPin, Calendar, Star, MessageCircle, ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
 import { listingsAPI, messagesAPI } from '../api';
 import { useAuthStore } from '../store/authStore';
 import ListingCard from '../components/listings/ListingCard';
+import ListingIllustration from '../components/illustrations/ListingIllustration';
 import toast from 'react-hot-toast';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -90,7 +91,7 @@ export default function ListingDetailPage() {
   if (!listing) return null;
 
   const cond = CONDITION_LABELS[listing.condition] || { label: listing.condition, color: 'text-gray-600 bg-gray-50 border-gray-200' };
-  const images = listing.images || [];
+  const images = (listing.images || []).filter((img: any) => img?.url && !img.url.includes('unsplash.com'));
   const discount = listing.original_price && listing.original_price > listing.price
     ? Math.round((1 - listing.price / listing.original_price) * 100)
     : null;
@@ -113,17 +114,15 @@ export default function ListingDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
           {/* Images */}
           <div>
-            <div className="relative aspect-[4/3] bg-[#f3f0eb] rounded-2xl overflow-hidden mb-3">
-              {images.length > 0 ? (
+            <div className="relative aspect-[4/3] bg-[#f4f2ed] rounded-2xl overflow-hidden mb-3">
+              {images.length > 0 && !images[activeImage]?.url?.includes('unsplash') ? (
                 <img
                   src={images[activeImage]?.url}
                   alt={listing.title}
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Tag className="w-16 h-16 text-[#e8e4de]" />
-                </div>
+                <ListingIllustration listing={listing} className="w-full h-full" />
               )}
 
               {images.length > 1 && (
@@ -164,7 +163,7 @@ export default function ListingDetailPage() {
           {/* Details */}
           <div>
             <div className="flex items-start justify-between gap-4 mb-3">
-              <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1a1a1a] leading-tight">
+              <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-[#1a1a1a] leading-tight">
                 {listing.title}
               </h1>
               <div className="flex items-center gap-1.5 flex-shrink-0">
@@ -336,7 +335,7 @@ export default function ListingDetailPage() {
         {/* Similar listings */}
         {similar.length > 0 && (
           <div>
-            <h2 className="font-serif text-2xl font-semibold text-[#1a1a1a] mb-6">Similar Items</h2>
+            <h2 className="font-display text-2xl font-bold tracking-tight text-[#1a1a1a] mb-6">Similar Items</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {similar.map((l: any) => (
                 <ListingCard key={l.id} listing={l} />
@@ -350,7 +349,7 @@ export default function ListingDetailPage() {
       {reportOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="font-serif text-lg font-semibold text-[#1a1a1a] mb-4">Report Listing</h3>
+            <h3 className="font-display text-lg font-bold text-[#1a1a1a] mb-4">Report Listing</h3>
             <select
               value={reportReason}
               onChange={e => setReportReason(e.target.value)}

@@ -76,7 +76,7 @@ export default function ProfilePage() {
               ) : profile.name.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1">
-              <h1 className="font-serif text-2xl font-semibold text-[#1a1a1a]">{profile.name}</h1>
+              <h1 className="font-display text-2xl font-bold tracking-tight text-[#1a1a1a]">{profile.name}</h1>
               <div className="flex items-center gap-3 mt-1 text-sm text-[#8a8a8a]">
                 <span>{profile.college}</span>
                 {profile.campus && (

@@ -1,3 +1,4 @@
+import ListingIllustration from '../illustrations/ListingIllustration';
 import { useState, useRef, useEffect } from 'react';
 import { X, Sparkles, Send, Loader2, ArrowRight } from 'lucide-react';
 import { aiAPI } from '../../api';
@@ -104,7 +105,7 @@ export default function LoopAI({ onClose }: { onClose: () => void }) {
                       className="flex items-center gap-2.5 bg-white border border-[#e8e4de] rounded-xl p-2.5 hover:border-[#6b7c5e] transition-colors group"
                     >
                       {l.image ? (
-                        <img src={l.image} alt={l.title} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                        <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0"><ListingIllustration listing={l} className="w-full h-full" isMini /></div>
                       ) : (
                         <div className="w-10 h-10 bg-[#f3f0eb] rounded-lg flex-shrink-0" />
                       )}
