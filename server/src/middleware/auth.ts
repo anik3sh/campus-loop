@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { db } from '../db';
+import { JWT_SECRET } from '../config';
 
 export interface AuthUser {
   id: string;
@@ -24,8 +25,7 @@ export function authenticateToken(req: AuthRequest, res: Response, next: NextFun
   }
 
   try {
-    const secret = process.env.JWT_SECRET || 'fallback_secret';
-    const decoded = jwt.verify(token, secret) as any;
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
     const user = db.prepare('SELECT id, email, name, college, campus, is_admin FROM users WHERE id = ? AND is_suspended = 0').get(decoded.id) as any;
     if (!user) {
       return res.status(401).json({ error: 'User not found or suspended' });
@@ -46,8 +46,7 @@ export function optionalAuth(req: AuthRequest, res: Response, next: NextFunction
 
   if (token) {
     try {
-      const secret = process.env.JWT_SECRET || 'fallback_secret';
-      const decoded = jwt.verify(token, secret) as any;
+      const decoded = jwt.verify(token, JWT_SECRET) as any;
       const user = db.prepare('SELECT id, email, name, college, campus, is_admin FROM users WHERE id = ? AND is_suspended = 0').get(decoded.id) as any;
       if (user) {
         req.user = {

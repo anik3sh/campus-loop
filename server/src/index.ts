@@ -1,10 +1,9 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';
 import multer from 'multer';
+import { PORT, CLIENT_URL, GROQ_MODEL, GROQ_API_KEY, NODE_ENV } from './config';
 import { initDB, db } from './db';
 import authRoutes from './routes/auth';
 import listingsRoutes from './routes/listings';
@@ -14,13 +13,12 @@ import adminRoutes from './routes/admin';
 import miscRoutes from './routes/misc';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // CORS configuration
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
-  process.env.CLIENT_URL,
+  CLIENT_URL,
 ].filter(Boolean) as string[];
 
 app.use(cors({
@@ -68,14 +66,17 @@ app.use("/api", (req: Request, res: Response) => {
   res.status(404).json({ error: `Endpoint '${req.originalUrl}' not found` });
 });
 
-// Serve Vite frontend
+// Serve Vite frontend in production if built
 const frontendPath = path.join(__dirname, "../../client/dist");
-
-app.use(express.static(frontendPath));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+  app.get("*", (req: Request, res: Response, next: NextFunction) => {
+    if (req.path.startsWith("/api") || req.path.startsWith("/uploads")) {
+      return next();
+    }
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
 
 // Centralized JSON error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -108,8 +109,8 @@ initDB();
 
 const server = app.listen(PORT, () => {
   console.log(`🚀 Campus Loop server running on http://localhost:${PORT}`);
-  console.log(`📦 GROQ Model: ${process.env.GROQ_MODEL || 'qwen/qwen3.8-27b'}`);
-  console.log(`🔑 GROQ API Key: ${process.env.GROQ_API_KEY && !process.env.GROQ_API_KEY.startsWith('gsk_placeholder') ? '✅ Configured' : '⚠️  Not configured'}`);
+  console.log(`📦 GROQ Model: ${GROQ_MODEL}`);
+  console.log(`🔑 GROQ API Key: ${GROQ_API_KEY && !GROQ_API_KEY.startsWith('gsk_placeholder') ? '✅ Configured' : '⚠️  Not configured'}`);
 });
 
 // Graceful shutdown handling

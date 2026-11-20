@@ -27,7 +27,7 @@ export default function HomePage() {
       setTrending(pop.data.listings || []);
       setRecent(rec.data.listings || []);
       if (st.data) setStats(st.data);
-    }).catch(() => {}).finally(() => setLoading(false));
+    }).catch(() => { }).finally(() => setLoading(false));
   }, []);
 
   const handleSearch = (e: React.FormEvent) => {

@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../db';
 import { v4 as uuidv4 } from 'uuid';
+import { JWT_SECRET } from '../config';
 
 const router = Router();
 
@@ -48,8 +49,7 @@ router.post('/register', (req: Request, res: Response) => {
     FROM users WHERE id = ?
   `).get(id) as any;
 
-  const secret = process.env.JWT_SECRET || 'fallback_secret_campus_loop';
-  const token = jwt.sign({ id }, secret, { expiresIn: '30d' });
+  const token = jwt.sign({ id }, JWT_SECRET, { expiresIn: '30d' });
 
   const user = {
     ...rawUser,
@@ -77,8 +77,7 @@ router.post('/login', (req: Request, res: Response) => {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
 
-  const secret = process.env.JWT_SECRET || 'fallback_secret_campus_loop';
-  const token = jwt.sign({ id: user.id }, secret, { expiresIn: '30d' });
+  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '30d' });
 
   const { password_hash, ...safeUser } = user;
   safeUser.is_admin = Boolean(safeUser.is_admin);
@@ -92,8 +91,7 @@ router.get('/me', (req: Request, res: Response) => {
   if (!token) return res.status(401).json({ error: 'Access token required' });
 
   try {
-    const secret = process.env.JWT_SECRET || 'fallback_secret_campus_loop';
-    const decoded = jwt.verify(token, secret) as any;
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
     const user = db.prepare(`
       SELECT id, name, email, college, campus, bio, avatar, is_admin, response_rate, total_sold, created_at 
       FROM users WHERE id = ? AND is_suspended = 0
